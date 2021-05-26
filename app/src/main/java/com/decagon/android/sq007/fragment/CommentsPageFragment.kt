@@ -62,10 +62,16 @@ class CommentsPageFragment : Fragment() {
 
         sendButton.setOnClickListener {
             val commentBody = commentEditText.text
-            viewModel.addNewComment(commentBody.toString(), postId)
-            Toast.makeText(context, "You commented", Toast.LENGTH_SHORT).show()
-            commentEditText.text.clear()
-            commentEditText.clearFocus()
+
+            if (commentBody.trim().isEmpty()) {
+                Toast.makeText(context, "Empty comments will not be posted", Toast.LENGTH_LONG).show()
+            } else {
+                viewModel.addNewComment(commentBody.toString(), postId)
+                Toast.makeText(context, "Nicely commented", Toast.LENGTH_SHORT).show()
+                commentEditText.text.clear()
+                commentEditText.clearFocus()
+            }
+
         }
     }
 

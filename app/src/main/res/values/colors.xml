@@ -11,4 +11,15 @@
     <color name="blue">#1DA9F2</color>
     <color name="green">#3ddc84</color>
     <color name="red">#FF0000</color>
+
+    <color name="bluie">#58A6FF</color>
+    <color name="greenie">#3FB950</color>
+    <color name="redie">#FF0000</color>
+    <color name="dark_blue">#0D1117</color>
+    <color name="orange">#ffc501</color>
+    <color name="orangie">#fb8532</color>
+    <color name="lighter_dark_blue">#161b22</color>
+    <color name="goldie">#fe9600</color>
+    <color name="darkie_blue">#090c10</color>
+    <color name="anie_blue">#6e7681</color>
 </resources>
