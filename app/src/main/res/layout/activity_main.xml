@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lighter_dark_blue"
-    tools:context=".MainActivity">
+    tools:context=".main.view.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:background="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
@@ -28,8 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fetch_post"
-        android:backgroundTint="@color/green"
-        android:textColor="@color/white"
+        android:backgroundTint="@color/orange"
+        android:textColor="@color/dark_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
