@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/listOfPostsFragment">
+
+    <fragment
+        android:id="@+id/listOfPostsFragment"
+        android:name="com.decagon.android.sq007.fragment.ListOfPostsFragment"
+        android:label="Posts"
+        tools:layout="@layout/fragment_list_of_posts">
+        <action
+            android:id="@+id/action_listOfPostsFragment_to_postPageFragment"
+            app:destination="@id/postPageFragment" />
+        <action
+            android:id="@+id/action_listOfPostsFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postPageFragment"
+        android:name="com.decagon.android.sq007.fragment.CommentsPageFragment"
+        android:label="Comments"
+        tools:layout="@layout/fragment_post_page" />
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.decagon.android.sq007.fragment.AddPostFragment"
+        android:label="Add Post"
+        tools:layout="@layout/fragment_add_post" >
+        <action
+            android:id="@+id/action_addPostFragment_to_listOfPostsFragment"
+            app:destination="@id/listOfPostsFragment" />
+    </fragment>
+</navigation>
