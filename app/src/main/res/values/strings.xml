@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">Decagon Android 007</string>
+    <string name="app_name">MVI Post</string>
+    <string name="fetch_post">Fetch Post</string>
+    <string name="post_id">POST_ID</string>
+    <string name="comment_id_text">Comment ID: </string>
+    <string name="user_id_text">User ID: </string>
+    <string name="post_id_text">Post ID: </string>
+    <string name="title_text">Title: </string>
+    <string name="name_text">Name: </string>
+    <string name="email_text">email: </string>
+    <string name="comment">Comment -> </string>
+    <string name="post_body">POST_BODY</string>
+    <string name="post_title">POST_TITLE</string>
+    <string name="name_text_comment">"NAME: "</string>
 </resources>
