@@ -20,7 +20,7 @@ class ListOfPostsFragmentViewModel : ViewModel (){
     }
 
 
-    private fun getAllPosts(){
+    fun getAllPosts(){
         listOfPosts.addSource(Repository.getPosts()) {
                 posts -> listOfPosts.postValue(posts)
         }

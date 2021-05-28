@@ -9,13 +9,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.decagon.android.sq007.R
 import com.decagon.android.sq007.adapter.ListOfCommentsAdapter
 import com.decagon.android.sq007.databinding.FragmentPostPageBinding
-import com.decagon.android.sq007.model.Comment
+import com.decagon.android.sq007.utils.toast
 import com.decagon.android.sq007.viewModel.CommentsPageFragmentViewModel
 
 
@@ -25,6 +23,7 @@ class CommentsPageFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var sendButton: Button
     private lateinit var commentEditText: EditText
+    private lateinit var commentsAdapter: ListOfCommentsAdapter
 
 
     override fun onCreateView(
@@ -35,8 +34,6 @@ class CommentsPageFragment : Fragment() {
         binding = FragmentPostPageBinding.inflate(inflater, container, false)
 
         recyclerView = binding?.commentsRecyclerView as RecyclerView
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
 
         sendButton = binding?.button as Button
         commentEditText = binding?.commentEditText as EditText
@@ -51,32 +48,35 @@ class CommentsPageFragment : Fragment() {
         val postTitle = arguments?.getString(getString(R.string.post_title))
         val postBody = arguments?.getString(getString(R.string.post_body))
 
-        binding?.title?.text = postTitle?.split(" ")?.map{ it -> it.capitalize() }?.joinToString(" ")
+
+        binding?.title?.text =
+            postTitle?.split(" ")?.map { it -> it.capitalize() }?.joinToString(" ")
         binding?.post?.text = postBody?.capitalize()
         binding?.postId?.text = "Post ID: ${postId?.toString()}"
 
         val viewModel: CommentsPageFragmentViewModel by viewModels()
-        viewModel.getListOfComments(postId!!).observe(this, Observer<List<Comment>> {
-            comments -> sendListToAdapter(comments)
+
+        commentsAdapter = ListOfCommentsAdapter()
+        binding?.commentsRecyclerView?.adapter = commentsAdapter
+
+        viewModel.getListOfComments(postId!!).observe(this, { comments ->
+            commentsAdapter.setComment(comments)
         })
 
         sendButton.setOnClickListener {
             val commentBody = commentEditText.text
 
             if (commentBody.trim().isEmpty()) {
-                Toast.makeText(context, "Empty comments will not be posted", Toast.LENGTH_LONG).show()
+                toast(getString(R.string.empty_comments_toast))
             } else {
                 viewModel.addNewComment(commentBody.toString(), postId)
-                Toast.makeText(context, "Nicely commented", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.nice_comment_toast), Toast.LENGTH_SHORT)
+                    .show()
                 commentEditText.text.clear()
                 commentEditText.clearFocus()
             }
 
         }
-    }
-
-    private fun sendListToAdapter(comments: List<Comment>?) {
-        binding?.commentsRecyclerView?.adapter = ListOfCommentsAdapter(comments!!)
     }
 
     override fun onDestroy() {

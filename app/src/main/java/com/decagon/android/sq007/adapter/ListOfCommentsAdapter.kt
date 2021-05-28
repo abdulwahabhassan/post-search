@@ -10,10 +10,9 @@ import com.decagon.android.sq007.R
 import com.decagon.android.sq007.model.Comment
 
 
-class ListOfCommentsAdapter(private val items: List<Comment>)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ListOfCommentsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
+    private var items: List<Comment> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_of_comments_item, parent, false)
@@ -38,13 +37,22 @@ class ListOfCommentsAdapter(private val items: List<Comment>)
 
         fun bind(comment: Comment) = with(itemView) {
 
-            findViewById<TextView>(R.id.name).text = context.getString(R.string.name_text_comment) + comment.name?.
-            split(" ")?.map{ it -> it.capitalize() }?.joinToString(" ")
-            findViewById<TextView>(R.id.user_id).text = context.getString(R.string.comment_id_text).toUpperCase() + " " + comment.id.toString()
-            findViewById<TextView>(R.id.email).text = context.getString(R.string.email_text) + " " + comment.email?.toLowerCase()
-            findViewById<TextView>(R.id.body).text = context.getString(R.string.comment).toUpperCase() + " " + comment.body?.capitalize()
+            findViewById<TextView>(R.id.name).text =
+                context.getString(R.string.name_text_comment) + comment.name?.split(" ")
+                    ?.map { it -> it.capitalize() }?.joinToString(" ")
+            findViewById<TextView>(R.id.user_id).text = context.getString(R.string.comment_id_text)
+                .toUpperCase() + " " + comment.id.toString()
+            findViewById<TextView>(R.id.email).text =
+                context.getString(R.string.email_text) + " " + comment.email?.toLowerCase()
+            findViewById<TextView>(R.id.body).text =
+                context.getString(R.string.comment).toUpperCase() + " " + comment.body?.capitalize()
         }
 
+    }
+
+    fun setComment(list: List<Comment>) {
+        this.items = list
+        notifyDataSetChanged()
     }
 
 }

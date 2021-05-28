@@ -38,7 +38,9 @@ object Repository {
 
     fun getPosts() : LiveData<List<Post>> {
 
+        if (nonLiveDataPostListForNewPost == null) {
 
+            var ans  : Call<List<Post>> =   jsonPlaceHolderAPI.getPosts()
             jsonPlaceHolderAPI.getPosts()
                 .enqueue(object : Callback<List<Post>> {
                     override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
@@ -56,15 +58,19 @@ object Repository {
                         }
                     }
                     override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                            Log.d(POSTAG, "List Of Posts: Error -> " + t.message)
+                        Log.d(POSTAG, "List Of Posts: Error -> " + t.message)
                     }
                 })
+        }
+
 
         return listOfPosts
     }
 
+
     fun getComments(postId: Int) : LiveData<List<Comment>> {
 
+        if (postId in 0..100) {
             jsonPlaceHolderAPI.getPostComments(postId)
                 .enqueue(object : Callback<List<Comment>> {
                     override fun onResponse(call: Call<List<Comment>>, response: Response<List<Comment>>) {
@@ -81,10 +87,15 @@ object Repository {
                         }
                     }
                     override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
-                            Log.d(COMMENTAG, "List Of Comments: Error -> " + t.message)
+                        Log.d(COMMENTAG, "List Of Comments: Error -> " + t.message)
                     }
 
                 })
+        } else {
+            nonLiveDataCommentsListForNewComment = mutableListOf<Comment>()
+            listOfComments.value = nonLiveDataCommentsListForNewComment
+        }
+
 
         return listOfComments
     }
@@ -100,12 +111,20 @@ object Repository {
                    if (response.isSuccessful) {
 
                        newComment.value = response.body()
-                       val sizeOfCommment = nonLiveDataCommentsListForNewComment?.get(
-                           nonLiveDataCommentsListForNewComment!!.size - 1)?.id
 
-                       if (sizeOfCommment != null) {
-                           newComment.value?.id = nonLiveDataCommentsListForNewComment?.size?.plus(sizeOfCommment)!!
+                       if (nonLiveDataCommentsListForNewComment?.isNotEmpty() == true) {
+
+                           val sizeOfCommment = nonLiveDataCommentsListForNewComment?.get(
+                               nonLiveDataCommentsListForNewComment!!.size - 1)?.id
+
+                           if (sizeOfCommment != null) {
+                               newComment.value?.id = nonLiveDataCommentsListForNewComment?.size?.plus(sizeOfCommment)!!
+                           }
+                       } else {
+                           newComment.value?.id = 501
+                           newComment.value?.id?.plus(1)
                        }
+
                        nonLiveDataCommentsListForNewComment?.add(0, newComment.value!!)
                        listOfComments.value = nonLiveDataCommentsListForNewComment
 
@@ -136,8 +155,9 @@ object Repository {
                     if(response.isSuccessful) {
 
                         newPost.value = response.body()
-                       newPost.value?.id = nonLiveDataPostListForNewPost?.size?.plus(1)
+                        newPost.value?.id = nonLiveDataPostListForNewPost?.size?.plus(1)
                         nonLiveDataPostListForNewPost?.add(0, newPost.value!!)
+                        nonLiveDataPostsListForQuery?.add(0, newPost.value!!)
                         listOfPosts.value = nonLiveDataPostListForNewPost
 
                     } else {
@@ -161,8 +181,9 @@ object Repository {
 
         val liveDataList = MutableLiveData<List<Post>>()
 
+
         when {
-            postId == "" -> {
+            postId?.trim() == "" -> {
 
                 liveDataList.value = nonLiveDataPostsListForQuery
 

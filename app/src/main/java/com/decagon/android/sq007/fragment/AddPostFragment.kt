@@ -8,16 +8,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.decagon.android.sq007.R
 import com.decagon.android.sq007.databinding.FragmentAddPostBinding
 import com.decagon.android.sq007.viewModel.AddPostFragmentViewModel
-import com.decagon.android.sq007.viewModel.ListOfPostsFragmentViewModel
 import com.google.android.material.textfield.TextInputEditText
 
 
 class AddPostFragment : Fragment() {
 
     var binding: FragmentAddPostBinding? = null
+
     private lateinit var postButton: Button
     private lateinit var inputTextUserId: TextInputEditText
     private lateinit var inputTextBody: TextInputEditText
@@ -36,7 +35,7 @@ class AddPostFragment : Fragment() {
 
         binding = FragmentAddPostBinding.inflate(inflater, container, false)
 
-        postButton = binding?.postButton as Button
+        postButton = binding?.postButton  as Button
         inputTextBody = binding?.textInputBody as TextInputEditText
         inputTextTitle = binding?.textInputTitle as TextInputEditText
         inputTextUserId = binding?.textInputUserID as TextInputEditText
@@ -57,6 +56,11 @@ class AddPostFragment : Fragment() {
             Navigation.findNavController(requireView()).navigateUp()
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 
 }

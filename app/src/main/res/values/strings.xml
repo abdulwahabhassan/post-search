@@ -12,5 +12,8 @@
     <string name="post_body">POST_BODY</string>
     <string name="post_title">POST_TITLE</string>
     <string name="name_text_comment">"NAME: "</string>
+    <string name="empty_comments_toast">Empty comments will not be posted</string>
+    <string name="nice_comment_toast">Nicely commented</string>
+
 
 </resources>

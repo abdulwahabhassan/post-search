@@ -23,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class ListOfPostsFragment : Fragment(), ListOfPostsAdapter.OnItemClickListener,
     SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
-    var binding: FragmentListOfPostsBinding? = null
+    private var binding: FragmentListOfPostsBinding? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var addPostButton: FloatingActionButton
@@ -64,6 +64,7 @@ class ListOfPostsFragment : Fragment(), ListOfPostsAdapter.OnItemClickListener,
                 posts -> sendListToAdapter(posts)
         })
 
+
         addPostButton.setOnClickListener {
             view.findNavController().navigate(
                 R.id.action_listOfPostsFragment_to_addPostFragment
@@ -100,7 +101,7 @@ class ListOfPostsFragment : Fragment(), ListOfPostsAdapter.OnItemClickListener,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-       viewModel.searchPosts(newText)
+        viewModel.searchPosts(newText)
         return true
     }
 
